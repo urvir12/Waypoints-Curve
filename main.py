@@ -8,11 +8,18 @@ from convexhull import ConvexHullCalc
 Point = namedtuple("Point", ["x", "y", "z"])
 
 
-def ellipse_points(a, b, center, normal, num_points = 60):
-    theta = np.linspace(0, 2 * np.pi, num_points) #generating 60 different points with different angles
+def ellipse_points(a, b, center, normal, num_points = 70):
+    theta = np.linspace(0, 2 * np.pi, num_points) #generating 100 different points with different angles
     x = a * np.cos(theta)
     y = b * np.sin(theta)
     z = 0.05 * np.sin(2 * theta)
+
+    #noise
+    x += np.random.normal(0, 0.2, size=theta.shape)
+    y += np.random.normal(0, 0.2, size=theta.shape)
+    z += np.random.normal(0, 0.2, size=theta.shape)
+
+
     ellipse_2d = np.vstack((x, y, z)).T
 
     u, v = np.linalg.svd(np.random.randn(3, 3))[0][:, :2].T
@@ -31,6 +38,7 @@ def main():
 
     center = np.array([1, 2, 3])
     normal = np.array([0, 0, 1])
+    
 
     points = ellipse_points(a, b, center, normal)
 
