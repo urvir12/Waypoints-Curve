@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from ellipse import Ellipse
 from convexhull import ConvexHullCalc
+from polynomialcalc import Polynomial_Calc
 Point = namedtuple("Point", ["x", "y", "z"])
 
 
@@ -53,6 +54,10 @@ def main():
     ellipse_coefficients = ellipsefit.fit2d()
     ellipse_3d = ellipsefit.transformback(ellipse_coefficients)
     ellipsefit.plot_ellipse(ellipse_3d)
+
+    #poly
+    poly_fit = PolynomialFit(points, degree=3)
+    poly_fit.plot_fit()
 
 if __name__ == "__main__":
     main()
