@@ -6,7 +6,7 @@ class Polynomial_Calc:
     def __init__(self, points, degree=3):
         self.points = points
         self.degree = degree
-        self.coeffs_x, self.coeffs_y = self.fit_polynomial()
+        self.coeffs_x, self.coeffs_y, self.coeffs_z= self.fit_polynomial()
     def fit_polynomial(self):
         t = np.linspace(0, 1, len(self.points))
         x, y, z = self.points[:, 0], self.points[:, 1], self.points[:, 2]
@@ -32,7 +32,7 @@ class Polynomial_Calc:
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
 
-        ax.scatter(self.points[:, 0], self.points[:, 1], self.poiunts[:, 2], color='blue', label="Original Points")
+        ax.scatter(self.points[:, 0], self.points[:, 1], self.points[:, 2], color='blue', label="Original Points")
 
         ax.plot(fitted_points[:, 0], fitted_points[:, 1], fitted_points[:, 2], color='red', linewidth=2, label="Polynomial Fit")
 

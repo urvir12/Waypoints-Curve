@@ -56,7 +56,7 @@ def main():
     ellipsefit.plot_ellipse(ellipse_3d)
 
     #poly
-    poly_fit = PolynomialFit(points, degree=3)
+    poly_fit = Polynomial_Calc(points, degree=3)
     poly_fit.plot_fit()
 
 if __name__ == "__main__":
