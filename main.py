@@ -1,11 +1,13 @@
 import math
 from collections import namedtuple
 from scipy.spatial import ConvexHull
+from scipy.interpolate import interp1d
 import numpy as np
 import matplotlib.pyplot as plt
 from ellipse import Ellipse
 from convexhull import ConvexHullCalc
 from polynomialcalc import Polynomial_Calc
+from fittest import FitTest
 Point = namedtuple("Point", ["x", "y", "z"])
 
 
@@ -31,7 +33,11 @@ def ellipse_points(a, b, center, normal, num_points = 70):
 
     ellipse_3d = ellipse_2d @ basis + center
     return ellipse_3d
-
+def resample_curve(curve, num_points):
+    t_old = np.linspace(0, 1, curve.shape[0])
+    t_new = np.linspace(0, 1, num_points)
+    interpolator = interp1d(t_old, curve, axis=0, kind='linear')
+    return interpolator(t_new)
 def main():
     theta = np.linspace(0, 2 * np.pi, 60)
     a = 5
@@ -52,12 +58,19 @@ def main():
     
     ellipsefit = Ellipse(points)
     ellipse_coefficients = ellipsefit.fit2d()
+    ellipse_curve = ellipsefit.transformback(ellipse_coefficients)
+    ellipse_curve = resample_curve(ellipse_curve, len(points))
     ellipse_3d = ellipsefit.transformback(ellipse_coefficients)
     ellipsefit.plot_ellipse(ellipse_3d)
 
     #poly
     poly_fit = Polynomial_Calc(points, degree=3)
+    polynomial_curve = poly_fit.evaluate_polynomial()
     poly_fit.plot_fit()
+
+    fit_test = FitTest(points, ellipse_curve, polynomial_curve)
+    fit_test.compare()
+
 
 if __name__ == "__main__":
     main()
