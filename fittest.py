@@ -1,4 +1,5 @@
 import numpy as np
+import csv
 #using residual error to judge
 class FitTest:
     #accepts original points, ellipse curve, polynomial curve
@@ -38,8 +39,20 @@ class FitTest:
 
         if ellipse_error < poly_error:
             print("Ellipse fit is more accurate")
+            #print points from optimal curve
+            print(self.ellipse_curve)
+            with open("waypoints.csv", "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerows(self.ellipse_curve)
         elif poly_error < ellipse_error:
             print("The polynomial fit is more accurate")
+            #print points from optimal curve
+            print(self.polynomial_curve)
+            with open("waypoints.csv", "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerows(self.polynomial_curve)
         else:
             print("They are both the same.")
+
+        
     
